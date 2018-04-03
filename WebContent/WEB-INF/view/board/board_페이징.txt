@@ -1,0 +1,291 @@
+insert into tb_board 
+         (bo_no, bo_title,bo_writer, bo_passwd, bo_email
+          , bo_content, bo_ip, bo_read_cnt, bo_reg_date, bo_mod_date )
+  values (seq_board.nextval, '나솔엄마 언제오죠..', '한재은', '1234', 'han@daum.net'
+          , '술은 조금만 ','192.168.3.22', 0, sysdate, sysdate );  
+
+
+
+insert into tb_board 
+         (bo_no, bo_title,bo_writer, bo_passwd, bo_email
+          , bo_content, bo_ip, bo_read_cnt, bo_reg_date, bo_mod_date )
+select seq_board.nextval, bo_title,bo_writer, bo_passwd, bo_email
+    , bo_content, '192.168.3' || ceil(dbms_random.value(0,255))
+    , ceil(dbms_random.value(1,1000)), sysdate, sysdate
+from tb_board;
+
+
+
+
+select '192.168.3' || ceil(dbms_random.value(0,255)) from dual;
+
+
+
+-- 페이징
+-- 윈도우함수 지원하는 DBMS : row_number()
+-- oracle : rownum
+-- myql : limit
+   select * from board Order by col limit 시작인덱스, 레코드수; 
+--ssqlserver : top 
+
+
+
+select rownum, bo_no, bo_ip from tb_board where rownum <= 10;
+
+--rownum 의사 컬럼 사용
+select * from (select rownum rn, bo_no, bo_ip
+                from(select bo_no, bo_ip
+                    from tb_board
+                    /* 검색 조건 where절 */
+                    order by bo_ip asc
+                    ) a
+            ) b
+where rn between 11 and 20; -- rn > 10 and rn <= 20;
+
+-- 분석함수 row_number() over () 이용
+select * 
+    from(select row_number() over(order by bo_ip asc)rn
+            , bo_no, bo_ip
+        from tb_board
+         /* 검색 조건 where절 */
+              ) a
+         where rn between 11 and 20;
+
+
+
+select rownum rn, bo_no, bo_ip
+    from tb_board;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
